@@ -5,7 +5,7 @@ import { FaCodepen, FaStore, FaUserFriends, FaUsers } from "react-icons/fa"
 import Spinner from "../components/layouts/Spinner"
 import { Link } from "react-router-dom"
 import RepoList from "../components/repos/RepoList"
-import { getUserRepos, getUser } from "../context/github/GithubActions"
+import { getUserAndRepos } from "../context/github/GithubActions"
 
 function User() {
 	const { user, loading, repos, dispatch } = useContext(GithubContext)
@@ -15,11 +15,8 @@ function User() {
 	useEffect(() => {
 		dispatch({ type: "SET_LOADING" })
 		const getUserData = async () => {
-			const userData = await getUser(params.login)
-			dispatch({ type: "GET_USER", payload: userData })
-
-			const userRepoData = await getUserRepos(params.login)
-			dispatch({ type: "GET_REPOS", payload: userRepoData })
+			const userData = await getUserAndRepos(params.login)
+			dispatch({ type: "GET_USER_AND_REPOS", payload: userData })
 		}
 
 		getUserData()
@@ -89,7 +86,7 @@ function User() {
 							</div>
 						</div>
 
-						<div className="w-full rounded-lg shadow-md bg-base-100 stats">
+						<div className="w-full rounded-lg shadow-md bg-base-200 stats">
 							{location && (
 								<div className="stat">
 									<div className="stat-title text-md">Location</div>
@@ -120,7 +117,7 @@ function User() {
 					</div>
 				</div>
 
-				<div className="w-full py-5 mb-6 rounded-lg shadow-md bg-base-100 stats">
+				<div className="w-full py-5 mb-6 rounded-lg shadow-md bg-base-200 stats">
 					<div className="stat">
 						<div className="stat-figure text-secondary">
 							<FaUsers className="text-3xl md:text-5xl" />
